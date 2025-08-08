@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Paperbound</title>
+  <style>
+    /* Background */
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('Cave of Mysteries 1080p.jpg') no-repeat center top fixed;
+      background-size: cover;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.37); /* darken by ~30% */
+      backdrop-filter: blur(1px);
+      z-index: -1;
+    }
+
+    /* Logo */
+   .logo {
+     max-width: 900px;
+     margin: 40px auto 20px;
+     display: flex;
+     justify-content: center;
+   }
+   .logo img {
+     width: 100%;
+     height: auto;
+   }
+   
+   .logo2 {
+     max-width: 900px;
+     margin: auto;
+     display: flex;
+     justify-content: center;
+   }
+   .logo2 img {
+     width: 100%;
+     height: auto;
+   }
+
+    /* YouTube embed */
+    .youtube-embed {
+      display: flex;
+      justify-content: center;
+      margin: 30px auto;
+    }
+
+    .youtube-embed iframe {
+      width: 90%;
+      max-width: 800px;
+      height: 450px;
+      border: none;
+      border-radius: 10px;
+    }
+
+    .carousel-container {
+      max-width: 800px;
+      margin: 50px auto 10px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .carousel-wrapper {
+      position: relative;
+      height: 400px;
+    }
+
+    .carousel-slide {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .carousel-slide img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .carousel-slide img.active {
+      opacity: 1;
+      z-index: 1;
+    }
+
+    .nav-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(0, 0, 0, 0.5);
+      border: none;
+      color: white;
+      font-size: 2rem;
+      padding: 10px;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .prev {
+      left: 10px;
+    }
+
+    .next {
+      right: 10px;
+    }
+
+    /* Thumbnail strip */
+    .thumbnail-container {
+      margin: 0 auto;
+      max-width: 800px;
+      position: relative;
+      padding: 10px 0;
+    }
+
+    .thumbnail-strip-wrapper {
+      overflow: hidden;
+      position: relative;
+      width: 100%;
+    }
+
+    .thumbnail-strip {
+      display: flex;
+      gap: 8px;
+      padding: 0 50px;
+      justify-content: center;
+      align-items: center;
+      overflow-x: auto;
+      scroll-behavior: smooth;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none;  /* IE and Edge */
+    }
+    
+    .thumbnail-strip::-webkit-scrollbar {
+      display: none; /* Chrome, Safari */
+    }
+
+    .thumbnail-strip img {
+      width: 100px;
+      height: 60px;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.6;
+      border-radius: 4px;
+      transition: opacity 0.3s, transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .thumbnail-strip img.active {
+      opacity: 1;
+      border: 2px solid #333;
+      transform: scale(1.05);
+    }
+
+    /* Hover zones for thumbnail auto-scroll */
+    .hover-zone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 50px;
+      z-index: 5;
+    }
+
+    .hover-left {
+      left: 0;
+    }
+
+    .hover-right {
+      right: 0;
+    }
+
+    .hover-zone::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+	.quote-section {
+     width: 100%;
+     background-color: rgba(108, 128, 138, 0.6); /* transparent teal */
+     padding: 40px 20px;
+     text-align: center;
+   }
+   
+   .quote-content {
+     max-width: 900px;
+     margin: 0 auto;
+   }
+   
+   .quote-content .line-one {
+     font-size: 1.5rem;
+     font-weight: bold;
+     color: white;
+     margin: 0 0 10px;
+   }
+   
+   .quote-content .line-two {
+     font-size: 1.2rem;
+     font-weight: bold;
+     color: #ccffff; /* bright teal */
+     margin: 0;
+   }
+	
+   .pbb-info-section {
+     width: 100%;
+     background-color: rgba(0, 0, 0, 0.3); /* darken */
+     padding: 40px 20px;
+     text-align: center;
+   }
+   
+   .pbb-info-content {
+     max-width: 900px;
+     margin: 0 auto;
+   }
+   
+   .pbb-info-content .line-one {
+     font-size: 1.3rem;
+     color: white;
+     margin: 0 0 10px;
+   }
+
+   .game-links {
+     margin-top: 20px;
+     display: flex;
+     justify-content: center;
+     gap: 20px;
+     flex-wrap: wrap;;
+     overflow-x: auto;
+     padding: 10px 0;
+   }
+   
+   .game-links img {
+     display: block;
+     height: auto;
+     width: 300px;
+     max-width: 100%;
+   }
+
+   .game-ratings {
+     display: flex;
+     justify-content: center;
+     gap: 60px;
+     flex-wrap: wrap;;
+     overflow-x: auto;
+     padding: 0 0 10px 0;
+   }
+   
+   .game-ratings img {
+     display: block;
+     height: auto;
+     max-width: 100%;
+   }
+	
+   .paperbound-info-section {
+     width: 100%;
+     background-color: rgba(0, 0, 0, 0.0);
+     padding: 40px 20px;
+     text-align: center;
+   }
+   
+   .paperbound-info-content {
+      max-width: 800px;
+      width: 80%;
+     margin: 0 auto;
+   }
+   
+   .paperbound-info-content .line-one {
+     font-size: 1.2rem;
+     font-weight: normal;
+     color: white;
+     margin: 0 0 10px;
+   }
+   
+   .paperbound-info-content .line-two {
+     font-size: 1.2rem;
+     font-weight: bold;
+     color: white;
+     margin: 0 0 10px;
+   }
+	
+	.legal-section {
+     background-color: rgba(108, 128, 138, 0.6); /* transparent teal */
+     width: 100%;
+     padding: 40px 20px;
+     text-align: center;
+   }
+   
+   .legal-content {
+     max-width: 900px;
+     margin: 0 auto;
+   }
+   
+   .legal-section .line-one {
+     font-size: 1rem;
+     font-weight: normal;
+     color: white;
+     margin: 0 0 10px;
+   }
+   
+  </style>
+</head>
+<body>
+
+  <!-- Logo -->
+  <div class="logo">
+    <img src="Paperbound_logo_color.png" alt="Logo" />
+  </div>
+
+  <!-- YouTube Embed -->
+  <div class="youtube-embed" id="yt-container">
+  </div>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {
+      const iframe = document.createElement("iframe");
+      iframe.src = "https://www.youtube.com/embed/d3i3d95xxUA";
+      iframe.frameBorder = "0";
+      iframe.allowFullscreen = true;
+      iframe.style.width = "90%";
+      iframe.style.maxWidth = "800px";
+      iframe.style.maxHeight = "450px";
+      iframe.style.borderRadius = "10px";
+      document.getElementById("yt-container").appendChild(iframe);
+    });
+  </script>
+  
+  <section class="quote-section">
+    <div class="quote-content">
+      <p class="line-one">"We're gonna make this an office staple."</p>
+      <p class="line-two">-GameSpot</p>
+    </div>
+  </section>
+
+<div class="carousel-container">
+  <div class="carousel-wrapper" id="carouselWrapper">
+    <div class="carousel-slide" id="carouselSlide">
+      <img src="screenshots/1.jpg" alt="Image 1" class="active">
+      <img src="screenshots/2.jpg" alt="Image 2">
+      <img src="screenshots/GravityBall14.jpg" alt="Image 3">
+      <img src="screenshots/3.jpg" alt="Image 4">
+      <img src="screenshots/Paperbound 2015-01-16 11-51-17-211.jpg" alt="Image 5">
+      <img src="screenshots/7.jpg" alt="Image 6">
+      <img src="screenshots/6.jpg" alt="Image 7">
+      <img src="screenshots/5.jpg" alt="Image 8">
+      <img src="screenshots/4.jpg" alt="Image 9">
+      <img src="screenshots/8.jpg" alt="Image 10">
+      <img src="screenshots/9.jpg" alt="Image 11">
+    </div>
+    <button class="nav-button prev" onclick="prevSlide()">❮</button>
+    <button class="nav-button next" onclick="nextSlide()">❯</button>
+  </div>
+</div>
+
+<div class="thumbnail-container">
+  <div class="hover-zone hover-left" id="hoverLeft"></div>
+  <div class="hover-zone hover-right" id="hoverRight"></div>
+  <div class="thumbnail-strip-wrapper">
+    <div class="thumbnail-strip" id="thumbnailStrip">
+      <img src="screenshots/1.jpg" onclick="goToSlide(0)">
+      <img src="screenshots/2.jpg" onclick="goToSlide(1)">
+      <img src="screenshots/GravityBall14.jpg"  onclick="goToSlide(2)">
+      <img src="screenshots/3.jpg" onclick="goToSlide(3)">
+      <img src="screenshots/Paperbound 2015-01-16 11-51-17-211.jpg" onclick="goToSlide(4)">
+      <img src="screenshots/7.jpg" onclick="goToSlide(5)">
+      <img src="screenshots/6.jpg" onclick="goToSlide(6)">
+      <img src="screenshots/5.jpg" onclick="goToSlide(7)">
+      <img src="screenshots/4.jpg" onclick="goToSlide(8)">
+      <img src="screenshots/8.jpg" onclick="goToSlide(9)">
+      <img src="screenshots/9.jpg" onclick="goToSlide(10)">
+    </div>
+  </div>
+</div>
+  
+  <section class="pbb-info-section">
+    <div class="pbb-info-content">
+      <p class="line-one">Paperbound Brawlers is an enhanced version of fan favorite multiplayer party game Paperbound. Paperbound Brawlers adds the new Gravity Ball game mode and enhanced art.</p>
+	  <br>
+      <p class="line-one">Paperbound Brawlers is available Xbox One and the on Nintendo Switch™!</p>
+    </div>
+    <div class="game-links">
+      <a href="https://www.microsoft.com/en-us/p/paperbound-brawlers/9PMCGGF45928" target="_blank">
+        <img src="xbox-one-logo-trimmed.png" alt="Buy for Xbox One">
+      </a>
+      <a href="https://www.nintendo.com/games/detail/paperbound-brawlers-switch" target="_blank">
+        <img src="Nintendo_eShop_logo_300.png" alt="Buy for Nintendo Switch">
+      </a>
+    </div>
+  </section>
+  
+  <section class="paperbound-info-section">
+    <div class="paperbound-info-content">
+    <div class="logo2">
+      <img src="Paperbound Logo.png" alt="Logo" />
+    </div>
+      <p class="line-one">The classic edition of Paperbound is available in these digital stores:</p>
+      <div class="game-links">
+        <a href="https://store.playstation.com/en-us/concept/203263" target="_blank">
+          <img src="PS4-Logo_White-On-Dark-For-Web.gif" alt="Buy for PlayStation 4">
+        </a>
+        <a href="http://store.steampowered.com/app/339690/" target="_blank">
+          <img src="steam_logo_for_web.gif" alt="Buy on Steam">
+        </a>
+        <a href="https://www.humblebundle.com/store/p/paperbound_storefront" target="_blank">
+          <img src="humble_store_logo_for_web.gif" alt="Buy on The Humble Store">
+        </a>
+      </div>
+	  <br>
+      <p class="line-two">Paperbound combines platforming, twitchy combat, and gravity control in a competitive couch multiplayer environment.</p>
+	  <br>
+      <p class="line-two">Between one and four players run with scissors, walk on walls, and lob ink bombs in whimsical-yet-intense battles within the pages of old storybooks. Play the campaign against AI bots when you're not schooling your friends.</p>
+    </div>
+  </section>
+  
+  <section class="legal-section">
+    <div class="legal-content">
+      <div class="game-ratings">
+	    <img src="ESRB_E10Plus.gif"/>
+	    <img src="PEGI-7-Paperbound-with-content-desriptor-image.gif"/>
+	  </div>
+      <p class="line-one">
+	  <br>
+	  Paperbound® is copyright © 2015 Dissident Logic, LLC
+	  <br>
+	  Paperbound Brawlers is copyright © 2019 Dissident Logic, LLC
+	  <br>
+	  Nintendo Switch is a trademark of Nintendo.
+	  <br>
+	  <br>
+	  You have permission to monetize any videos featuring Paperbound gameplay or trailer footage.
+	  </p>
+    </div>
+  </section>
+
+<script>
+  const slides = document.querySelectorAll('#carouselSlide img');
+  const thumbnails = document.querySelectorAll('#thumbnailStrip img');
+  const thumbnailStrip = document.getElementById('thumbnailStrip');
+  let index = 0;
+  const totalImages = slides.length;
+
+  function updateCarousel() {
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('active', i === index);
+    });
+    thumbnails.forEach((thumb, i) => {
+      thumb.classList.toggle('active', i === index);
+    });
+  }
+  
+  let autoSlideInterval;
+
+  function autoSlide() {
+    index = (index + 1) % totalImages;
+    updateCarousel();
+  }
+  
+  function restartAutoSlide() {
+    clearInterval(autoSlideInterval);
+	autoSlideInterval = setInterval(autoSlide, 5000);
+  }
+
+  function nextSlide() {
+    index = (index + 1) % totalImages;
+    updateCarousel();
+	restartAutoSlide();
+  }
+
+  function prevSlide() {
+    index = (index - 1 + totalImages) % totalImages;
+    updateCarousel();
+	restartAutoSlide();
+  }
+
+  function goToSlide(i) {
+    index = i;
+    updateCarousel();
+	restartAutoSlide();
+  }
+
+  restartAutoSlide();
+  updateCarousel();
+
+  // Hover-scroll
+  let scrollInterval;
+
+  function startScroll(direction) {
+    stopScroll();
+    scrollInterval = setInterval(() => {
+      thumbnailStrip.scrollLeft += direction;
+    }, 10);
+  }
+
+  function stopScroll() {
+    clearInterval(scrollInterval);
+  }
+
+  document.getElementById('hoverLeft').addEventListener('mouseenter', () => startScroll(-10));
+  document.getElementById('hoverLeft').addEventListener('mouseleave', stopScroll);
+
+  document.getElementById('hoverRight').addEventListener('mouseenter', () => startScroll(10));
+  document.getElementById('hoverRight').addEventListener('mouseleave', stopScroll);
+</script>
+
+</body>
+</html>
