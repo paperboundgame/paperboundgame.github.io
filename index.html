@@ -503,7 +503,7 @@
   function startScroll(direction) {
     stopScroll();
     scrollInterval = setInterval(() => {
-      thumbnailStrip.scrollLeft += direction;
+      thumbnailStrip.scrollLeft += 3*direction;
     }, 10);
   }
 
