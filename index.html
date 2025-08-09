@@ -52,53 +52,67 @@
       display: flex;
       justify-content: center;
       margin: 30px auto;
+	  max-width: 800px;   /* limit the max width */
+      width: 90%;         /* allow scaling on smaller viewports */
     }
 
-    .youtube-embed iframe {
-      width: 90%;
-      max-width: 800px;
-      height: 450px;
-      border: none;
-      border-radius: 10px;
-    }
+   .responsive-video {
+     position: relative;
+     width: 100%;
+     padding-top: 56.25%; /* 16:9 aspect ratio (9/16 = 0.5625) */
+     height: 0;
+   }
+   
+   .responsive-video iframe {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     border-radius: 10px;
+     border: none;
+   }
 
-    .carousel-container {
-      max-width: 800px;
-      margin: 50px auto 10px;
-      position: relative;
-      overflow: hidden;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .carousel-wrapper {
-      position: relative;
-      height: 400px;
-    }
-
-    .carousel-slide {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .carousel-slide img {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0;
-      transition: opacity 1s ease-in-out;
-    }
-
-    .carousel-slide img.active {
-      opacity: 1;
-      z-index: 1;
-    }
+   .carousel-container {
+     max-width: 800px;
+     margin: 50px auto 10px;
+     position: relative;
+     overflow: hidden;
+     border-radius: 8px;
+     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+     width: 90%;
+   }
+   
+   .carousel-wrapper {
+     position: relative;
+     width: 100%;
+     padding-top: 56.25%; /* 16:9 aspect ratio */
+     height: 0; /* important: no fixed height */
+   }
+   
+   .carousel-slide {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+   }
+   
+   .carousel-slide img {
+     position: absolute;
+     top: 0;
+     left: 0;
+     width: 100%;
+     height: 100%;
+     object-fit: cover;
+     opacity: 0;
+     transition: opacity 1s ease-in-out;
+   }
+   
+   .carousel-slide img.active {
+     opacity: 1;
+     z-index: 1;
+   }
 
     .nav-button {
       position: absolute;
@@ -325,18 +339,14 @@
   </div>
 
   <!-- YouTube Embed -->
-  <div class="youtube-embed" id="yt-container">
+  <div class="youtube-embed">
+     <div class="responsive-video" id="yt-container">
+	 </div>
   </div>
   <script>
     window.addEventListener("DOMContentLoaded", function () {
       const iframe = document.createElement("iframe");
       iframe.src = "https://www.youtube.com/embed/d3i3d95xxUA";
-      iframe.frameBorder = "0";
-      iframe.allowFullscreen = true;
-      iframe.style.width = "90%";
-      iframe.style.maxWidth = "800px";
-      iframe.style.maxHeight = "450px";
-      iframe.style.borderRadius = "10px";
       document.getElementById("yt-container").appendChild(iframe);
     });
   </script>
