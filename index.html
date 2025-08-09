@@ -215,8 +215,10 @@
    }
    
    .quote-content {
-     max-width: 900px;
-     margin: 0 auto;
+     max-width: 600px;    /* limit max width */
+     margin: 0 auto;      /* center horizontally */
+     padding: 0 10px;     /* small side padding on narrow screens */
+     text-align: center;
    }
    
    .quote-content .line-one {
@@ -238,11 +240,14 @@
      background-color: rgba(0, 0, 0, 0.3); /* darken */
      padding: 40px 20px;
      text-align: center;
+     box-sizing: border-box; /* include padding in width */
    }
    
    .pbb-info-content {
      max-width: 900px;
      margin: 0 auto;
+	 width: 100%;       /* fill up to max-width */
+     box-sizing: border-box;
    }
    
    .pbb-info-content .line-one {
@@ -286,16 +291,22 @@
    .paperbound-info-section {
      width: 100%;
      background-color: rgba(0, 0, 0, 0.0);
-     padding: 40px 20px;
+     padding-left: 20px;
+     padding-right: 20px;
+     box-sizing: border-box; /* include padding in width */
      text-align: center;
    }
    
    .paperbound-info-content {
-      max-width: 800px;
-      width: 80%;
-      margin: 0 auto;
+     max-width: 800px;
+     margin: 0 auto;
+     width: 100%;       /* fill up to max-width */
+     box-sizing: border-box;
    }
    
+   .paperbound-info-content p.line-two:last-of-type {
+     margin-bottom: 30px;
+   }
    .paperbound-info-content .line-one {
      font-size: 1.2rem;
      font-weight: normal;
@@ -315,11 +326,16 @@
      width: 100%;
      padding: 40px 20px;
      text-align: center;
+     padding-left: 20px;
+     padding-right: 20px;
+     box-sizing: border-box; /* include padding in width */
    }
    
    .legal-content {
-     max-width: 900px;
+     max-width: 900px;  /* unify max-width */
      margin: 0 auto;
+     width: 100%;       /* fill up to max-width */
+     box-sizing: border-box;
    }
    
    .legal-section .line-one {
@@ -419,8 +435,8 @@
     <div class="logo2">
       <img src="Paperbound Logo.png" alt="Logo" />
     </div>
-      <p class="line-one">The classic edition of Paperbound is available in these digital stores:</p>
-      <div class="game-links">
+    <p class="line-one">The classic edition of Paperbound is available in these digital stores:</p>
+    <div class="game-links">
         <a href="https://store.playstation.com/en-us/concept/203263" target="_blank">
           <img src="PS4-Logo_White-On-Dark-For-Web.gif" alt="Buy for PlayStation 4">
         </a>
